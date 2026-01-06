@@ -350,6 +350,86 @@ def transfer():
         return f"Transfer Hatası: {str(e)}"
 
 
+# BAKIM KAYDI
+@app.route('/maintenance', methods=['POST'])
+def maintenance():
+    serial = request.form['serial']
+    description = request.form['description']
+
+    try:
+        tx_hash = contract.functions.logMaintenance(serial, description).transact({'from': web3.eth.accounts[0]})
+        web3.eth.wait_for_transaction_receipt(tx_hash)
+        print(f"Bakım Kaydedildi: {serial}")
+    except Exception as e:
+        print(f"BAKIM HATASI: {e}")
+
+    return redirect('/')
+
+
+# DURUM BİLDİRİMİ
+@app.route('/report', methods=['POST'])
+def report_status():
+    serial = request.form['serial']
+    new_status = request.form['status']
+
+    try:
+        status_code = int(new_status)
+        tx_hash = contract.functions.reportLostOrStolen(serial, status_code).transact({'from': web3.eth.accounts[0]})
+        web3.eth.wait_for_transaction_receipt(tx_hash)
+        print(f"Durum Güncellendi: {serial} -> {new_status}")
+    except Exception as e:
+        print(f"RAPOR HATASI: {e}")
+
+    return redirect('/')
+
+
+# GEÇMİŞ (HISTORY)
+@app.route('/history/<serial>')
+def weapon_history(serial):
+    history_logs = []
+
+    try:
+        # A) Transfer Geçmişi (Event adı: CustodyTransferred)
+        transfer_events = contract.events.CustodyTransferred.get_logs(from_block=0)
+
+        for event in transfer_events:
+            if event['args']['serialNumber'] == serial:
+                history_logs.append({
+                    'type': 'Transfer',
+                    'detail': f"{event['args']['from'][:8]}... -> {event['args']['to'][:8]}...",
+                    'block': event['blockNumber']
+                })
+
+        # B) Bakım Geçmişi (Event adı: MaintenanceLogged)
+        maintenance_events = contract.events.MaintenanceLogged.get_logs(from_block=0)
+        for event in maintenance_events:
+            if event['args']['serialNumber'] == serial:
+                history_logs.append({
+                    'type': 'Bakım',
+                    'detail': event['args']['description'],
+                    'block': event['blockNumber']
+                })
+
+        # C) Durum Değişikliği (Event adı: StatusChanged)
+        status_events = contract.events.StatusChanged.get_logs(from_block=0)
+        status_names = ["Aktif", "Bakımda", "Kayıp", "Çalıntı", "Hurda"]
+        for event in status_events:
+            if event['args']['serialNumber'] == serial:
+                status_idx = event['args']['newStatus']
+                status_text = status_names[status_idx] if status_idx < len(status_names) else str(status_idx)
+
+                history_logs.append({
+                    'type': 'Durum',
+                    'detail': f"Yeni Durum: {status_text}",
+                    'block': event['blockNumber']
+                })
+
+        history_logs.sort(key=lambda x: x['block'], reverse=True)
+
+    except Exception as e:
+        print(f"Geçmiş çekilirken hata: {e}")
+
+    return render_template('history.html', serial=serial, logs=history_logs)
 
 
 if __name__ == '__main__':
