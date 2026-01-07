@@ -2,18 +2,34 @@
 
 This project is a Decentralized Application (dApp) designed to track the lifecycle of weapons in the defense industry. By leveraging Ethereum Blockchain technology, it ensures that every weapon's production, custody transfer, maintenance, and status change is recorded immutably and transparently.
 
-🚀 Features
-🔫 Mint New Weapon: Register new weapons to the blockchain with unique serial numbers.
+---
 
-🤝 Transfer Custody: Securely transfer weapon ownership between units/personnel.
 
-🔧 Maintenance Logs: Record maintenance activities (e.g., cleaning, repair) on the blockchain.
+## 🚀 Features
 
-⚠️ Status Reporting: Flag weapons as Active, Lost, Stolen, or Scrapped.
+### 🔫 Mint New Weapon 
 
-📜 Audit Trail (History): View the complete, unalterable history of any weapon from production to present.
+Register new weapons to the blockchain with unique serial numbers.
 
-📊 Live Inventory: Real-time fetching of data directly from the blockchain.
+### 🤝 Transfer Custody
+
+Securely transfer weapon ownership between units/personnel.
+
+### 🔧 Maintenance Logs
+
+Record maintenance activities (e.g., cleaning, repair) on the blockchain.
+
+### ⚠️ Status Reporting
+
+Flag weapons as Active, Lost, Stolen, or Scrapped.
+
+### 📜 Audit Trail (History)
+
+View the complete, unalterable history of any weapon from production to present.
+
+### 📊 Live Inventory
+
+Real-time fetching of data directly from the blockchain.
 
 🛠️ Tech Stack
 Blockchain: Ethereum (Local via Ganache)
