@@ -31,18 +31,33 @@ View the complete, unalterable history of any weapon from production to present.
 
 Real-time fetching of data directly from the blockchain.
 
-🛠️ Tech Stack
-Blockchain: Ethereum (Local via Ganache)
+---
 
-Smart Contract: Solidity (v0.8.0+)
+## 🛠️ Tech Stack
 
-Backend: Python (Flask)
+### Blockchain: Ethereum (Local via Ganache)
 
-Library: Web3.py (Blockchain interaction)
+### Smart Contract
 
-Frontend: HTML5, CSS3
+Solidity (v0.8.0+)
 
-IDE: Remix IDE (For contract deployment)
+### Backend
+
+Python (Flask)
+
+### Library
+
+Web3.py (Blockchain interaction)
+
+### Frontend
+
+HTML5, CSS3
+
+### IDE
+
+Remix IDE (For contract deployment)
+
+---
 
 ⚙️ Installation & Setup
 Follow these steps to run the project locally.
