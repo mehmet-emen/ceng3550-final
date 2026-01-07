@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History Record - {{ serial }}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 40px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }
+        .btn-back { text-decoration: none; color: #333; font-weight: bold; border: 1px solid #ccc; padding: 8px 15px; border-radius: 5px; }
+        .btn-back:hover { background: #eee; }
+
+        /* Timeline Styles */
+        .log-item { padding: 20px; border-left: 5px solid #ccc; background: #fafafa; margin-bottom: 20px; border-radius: 0 5px 5px 0; }
+
+        /* Renkler (Hem Türkçe hem İngilizce gelirse diye ikisini de ekledim) */
+        .log-Transfer { border-left-color: #2980b9; }
+        .log-Bakım, .log-Maintenance { border-left-color: #f39c12; }
+        .log-Durum, .log-Status { border-left-color: #c0392b; }
+
+        h3 { margin: 0 0 10px 0; }
+        .meta { color: #999; font-size: 0.85em; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Weapon History: <span style="color: #2c3e50;">{{ serial }}</span></h1>
+        <a href="/" class="btn-back">← Back to Dashboard</a>
+    </div>
+
+    {% if logs %}
+        {% for log in logs %}
+        <div class="log-item log-{{ log.type }}">
+            <h3>{{ log.type }} Operation</h3>
+            <p style="font-size: 1.1em;">{{ log.detail }}</p>
+            <span class="meta">Block Number: #{{ log.block }}</span>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; color: #777; padding: 30px;">
+            <p>No transfer or maintenance records found for this weapon yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
